@@ -206,6 +206,21 @@ export const products: Product[] = [
     offers: [],
     inStock: true,
   },
+  {
+    id: '14',
+    name: 'Littmann Diaphragm Cover',
+    price: 1290,
+    originalPrice: undefined,
+    description: '🩺 Protect your Littmann. Preserve every heartbeat.\n\nQuality Diaphragm Cover for Littmann Stethoscopes\n✅ Protects from dust & damage\n✅ Snug fit and easy to attach\n✅ Lightweight & durable',
+    longDescription: '🩺 Protect your Littmann. Preserve every heartbeat.\n\nQuality Diaphragm Cover for Littmann Stethoscopes\n✅ Protects from dust & damage\n✅ Snug fit and easy to attach\n✅ Lightweight & durable',
+    category: 'Stethoscope Accessories',
+    images: ['/images/diaphragm-cover.jpeg', '/images/diaphragm-cover-2.jpeg', '/images/diaphragm-cover-3.jpeg', '/images/diaphragm-cover-4.jpeg'],
+    variants: [
+      { color: 'Black', label: 'Black' },
+    ],
+    offers: [],
+    inStock: true,
+  },
 ];
 
 export const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
