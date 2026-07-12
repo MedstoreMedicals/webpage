@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Product } from '../types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,17 +21,37 @@ const categoryIcons: Record<string, string> = {
 const ProductCard: React.FC<Props> = ({ product, view = 'grid' }) => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const [needsVariant, setNeedsVariant] = useState(false);
 
   const discountPct = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : null;
 
+  const goToDetail = () => navigate(`/products/${product.id}`);
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
+    if (product.variants.length > 0) {
+      setNeedsVariant(true);
+      return;
+    }
     addItem(product);
   };
 
-  const goToDetail = () => navigate(`/products/${product.id}`);
+  const goSelectVariant = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    goToDetail();
+  };
+
+  const variantWarning = needsVariant && (
+    <div style={{ color: 'var(--danger)', fontSize: '0.75rem', fontWeight: 600, marginTop: 4 }}>
+      Please{' '}
+      <span style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={goSelectVariant}>
+        select a {product.variants[0]?.color ? 'colour' : 'type/size'}
+      </span>{' '}
+      before adding to cart.
+    </div>
+  );
 
   if (view === 'list') {
     return (
@@ -65,15 +85,18 @@ const ProductCard: React.FC<Props> = ({ product, view = 'grid' }) => {
             </span>
           </div>
         </div>
-        <button
-          className="btn-primary-custom"
-          onClick={handleAddToCart}
-          disabled={!product.inStock}
-          style={{ alignSelf: 'center', whiteSpace: 'nowrap', fontSize: '0.875rem', padding: '8px 16px' }}
-        >
-          <FontAwesomeIcon icon={faShoppingCart} style={{ marginRight: 6 }} />
-          Add to Cart
-        </button>
+        <div style={{ alignSelf: 'center', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <button
+            className="btn-primary-custom"
+            onClick={handleAddToCart}
+            disabled={!product.inStock}
+            style={{ whiteSpace: 'nowrap', fontSize: '0.875rem', padding: '8px 16px' }}
+          >
+            <FontAwesomeIcon icon={faShoppingCart} style={{ marginRight: 6 }} />
+            Add to Cart
+          </button>
+          {variantWarning}
+        </div>
       </div>
     );
   }
@@ -117,6 +140,7 @@ const ProductCard: React.FC<Props> = ({ product, view = 'grid' }) => {
           <FontAwesomeIcon icon={faShoppingCart} style={{ marginRight: 6 }} />
           Add to Cart
         </button>
+        {variantWarning}
       </div>
     </div>
   );

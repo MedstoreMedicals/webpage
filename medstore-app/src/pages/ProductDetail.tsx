@@ -18,11 +18,10 @@ const ProductDetail: React.FC = () => {
   const { addItem } = useCart();
 
   const product = products.find(p => p.id === id);
-  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(
-    product?.variants[0]
-  );
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(undefined);
   const [activeImage, setActiveImage] = useState(0);
   const [addedFeedback, setAddedFeedback] = useState(false);
+  const [variantError, setVariantError] = useState(false);
 
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -45,6 +44,11 @@ const ProductDetail: React.FC = () => {
     : null;
 
   const handleAddToCart = () => {
+    if (product.variants.length > 0 && !selectedVariant) {
+      setVariantError(true);
+      return;
+    }
+    setVariantError(false);
     addItem(product, selectedVariant);
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 2000);
@@ -189,7 +193,7 @@ const ProductDetail: React.FC = () => {
                     <button
                       key={v.label}
                       className={`variant-btn${selectedVariant?.label === v.label ? ' active' : ''}`}
-                      onClick={() => setSelectedVariant(v)}
+                      onClick={() => { setSelectedVariant(v); setVariantError(false); }}
                     >
                       {v.color && (
                         <span style={{
@@ -201,6 +205,11 @@ const ProductDetail: React.FC = () => {
                     </button>
                   ))}
                 </div>
+                {variantError && (
+                  <div style={{ color: 'var(--danger)', fontSize: '0.85rem', marginTop: 8, fontWeight: 600 }}>
+                    Please select a {product.variants[0].color ? 'colour' : 'type/size'} before adding to cart.
+                  </div>
+                )}
               </div>
             )}
 
