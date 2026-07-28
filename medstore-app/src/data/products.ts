@@ -221,6 +221,21 @@ export const products: Product[] = [
     offers: [],
     inStock: true,
   },
+  {
+    id: '15',
+    name: 'Littmann All-Black Binaurals',
+    price: 4990,
+    originalPrice: undefined,
+    description: '🩺 Refresh your Littmann. Hear every heartbeat with confidence.\n\nPremium Quality A All-Black Binaurals for Littmann Stethoscopes\n✅ Compatible with Littmann Classic III & Classic II SE\n✅ Comfortable fit with soft-sealing eartips\n✅ Durable, lightweight & premium finish\n✅ Easy to replace – restore your stethoscope in minutes',
+    longDescription: '🩺 Refresh your Littmann. Hear every heartbeat with confidence.\n\nPremium Quality A All-Black Binaurals for Littmann Stethoscopes\n✅ Compatible with Littmann Classic III & Classic II SE\n✅ Comfortable fit with soft-sealing eartips\n✅ Durable, lightweight & premium finish\n✅ Easy to replace – restore your stethoscope in minutes',
+    category: 'Stethoscope Accessories',
+    images: ['/images/littmann-all-black-binaurals.jpeg'],
+    variants: [
+      { color: 'Black', label: 'Black' },
+    ],
+    offers: [],
+    inStock: true,
+  },
 ];
 
 export const categories = ['All', ...Array.from(new Set(products.map(p => p.category)))];
