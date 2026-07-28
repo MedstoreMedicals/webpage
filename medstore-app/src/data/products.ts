@@ -229,7 +229,7 @@ export const products: Product[] = [
     description: '🩺 Refresh your Littmann. Hear every heartbeat with confidence.\n\nPremium Quality A All-Black Binaurals for Littmann Stethoscopes\n✅ Compatible with Littmann Classic III & Classic II SE\n✅ Comfortable fit with soft-sealing eartips\n✅ Durable, lightweight & premium finish\n✅ Easy to replace – restore your stethoscope in minutes',
     longDescription: '🩺 Refresh your Littmann. Hear every heartbeat with confidence.\n\nPremium Quality A All-Black Binaurals for Littmann Stethoscopes\n✅ Compatible with Littmann Classic III & Classic II SE\n✅ Comfortable fit with soft-sealing eartips\n✅ Durable, lightweight & premium finish\n✅ Easy to replace – restore your stethoscope in minutes',
     category: 'Stethoscope Accessories',
-    images: ['/images/littmann-all-black-binaurals.jpeg'],
+    images: ['/images/littmann-all-black-binaurals.jpeg', '/images/littmann-all-black-binaurals-2.jpeg'],
     variants: [
       { color: 'Black', label: 'Black' },
     ],
