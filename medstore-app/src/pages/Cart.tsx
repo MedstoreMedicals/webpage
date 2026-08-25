@@ -7,7 +7,7 @@ import { useCart } from '../context/CartContext';
 import { logoSrc } from '../constants/assets';
 
 const Cart: React.FC = () => {
-  const { state, removeItem, updateQuantity, totalItems, totalPrice } = useCart();
+  const { state, removeItem, updateQuantity, totalItems, totalPrice, deliveryCharge, grandTotal } = useCart();
   const navigate = useNavigate();
 
   if (state.items.length === 0) {
@@ -142,7 +142,11 @@ const Cart: React.FC = () => {
                 <span>LKR {totalPrice.toLocaleString()}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.9rem', opacity: 0.85 }}>
-                <span>Delivery</span>
+                <span>Delivery Fee</span>
+                <span style={{ color: '#90e0ef' }}>{deliveryCharge === 0 ? 'Free' : `LKR ${deliveryCharge.toLocaleString()}`}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, fontSize: '0.9rem', opacity: 0.85 }}>
+                <span>Payment Method</span>
                 <span style={{ color: '#90e0ef' }}>Cash on Delivery</span>
               </div>
 
@@ -150,7 +154,7 @@ const Cart: React.FC = () => {
 
               <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '1.2rem', marginBottom: 24 }}>
                 <span>Total</span>
-                <span>LKR {totalPrice.toLocaleString()}</span>
+                <span>LKR {grandTotal.toLocaleString()}</span>
               </div>
 
               <button

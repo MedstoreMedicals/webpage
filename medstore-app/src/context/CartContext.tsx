@@ -19,11 +19,15 @@ interface CartContextValue {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  deliveryCharge: number;
+  grandTotal: number;
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const CART_STORAGE_KEY = 'medstore_cart';
+const FLAT_DELIVERY_CHARGE = 450;
+const FREE_DELIVERY_PRODUCT_ID = '9';
 
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
@@ -116,9 +120,25 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     0
   );
 
+  const isOnlyFreeDeliveryProduct =
+    state.items.length > 0 &&
+    state.items.every((item) => item.product.id === FREE_DELIVERY_PRODUCT_ID);
+  const deliveryCharge = isOnlyFreeDeliveryProduct ? 0 : state.items.length > 0 ? FLAT_DELIVERY_CHARGE : 0;
+  const grandTotal = totalPrice + deliveryCharge;
+
   return (
     <CartContext.Provider
-      value={{ state, addItem, removeItem, updateQuantity, clearCart, totalItems, totalPrice }}
+      value={{
+        state,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        totalItems,
+        totalPrice,
+        deliveryCharge,
+        grandTotal,
+      }}
     >
       {children}
     </CartContext.Provider>

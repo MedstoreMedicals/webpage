@@ -16,7 +16,13 @@ const getSriLankanWhatsAppNumber = (localNumber: string) => {
   return `${SRI_LANKA_PHONE_PREFIX}${digits}`;
 };
 
-function buildWhatsAppMessage(customer: CustomerDetails, items: ReturnType<typeof useCart>['state']['items'], total: number): string {
+function buildWhatsAppMessage(
+  customer: CustomerDetails,
+  items: ReturnType<typeof useCart>['state']['items'],
+  subtotal: number,
+  deliveryCharge: number,
+  grandTotal: number
+): string {
   const itemLines = items
     .map(item => {
       const variant = item.selectedVariant ? ` (${item.selectedVariant.label})` : '';
@@ -36,7 +42,9 @@ function buildWhatsAppMessage(customer: CustomerDetails, items: ReturnType<typeo
     '📦 *Order Items*',
     itemLines,
     '',
-    `💰 *Total: LKR ${total.toLocaleString()}*`,
+    `Subtotal: LKR ${subtotal.toLocaleString()}`,
+    `Delivery Fee: ${deliveryCharge === 0 ? 'Free' : `LKR ${deliveryCharge.toLocaleString()}`}`,
+    `💰 *Total: LKR ${grandTotal.toLocaleString()}*`,
     `💳 *Payment: Cash on Delivery*`,
     '',
     '✅ Please confirm this order. Thank you!',
@@ -48,7 +56,7 @@ function buildWhatsAppMessage(customer: CustomerDetails, items: ReturnType<typeo
 }
 
 const Checkout: React.FC = () => {
-  const { state, totalItems, totalPrice, clearCart } = useCart();
+  const { state, totalItems, totalPrice, deliveryCharge, grandTotal, clearCart } = useCart();
   const navigate = useNavigate();
 
   const [form, setForm] = useState<CustomerDetails>({
@@ -99,7 +107,7 @@ const Checkout: React.FC = () => {
     e.preventDefault();
     if (!validate()) return;
 
-    const message = buildWhatsAppMessage(form, state.items, totalPrice);
+    const message = buildWhatsAppMessage(form, state.items, totalPrice, deliveryCharge, grandTotal);
     const encodedMsg = encodeURIComponent(message);
     const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
 
@@ -286,14 +294,18 @@ const Checkout: React.FC = () => {
                     <span>LKR {totalPrice.toLocaleString()}</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', opacity: 0.85, marginBottom: 6 }}>
-                    <span>Delivery</span>
+                    <span>Delivery Fee</span>
+                    <span style={{ color: '#90e0ef' }}>{deliveryCharge === 0 ? 'Free' : `LKR ${deliveryCharge.toLocaleString()}`}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', opacity: 0.85, marginBottom: 6 }}>
+                    <span>Payment Method</span>
                     <span style={{ color: '#90e0ef' }}>Cash on Delivery</span>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 800, fontSize: '1.3rem', marginBottom: 24, borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: 14 }}>
                   <span>Total</span>
-                  <span>LKR {totalPrice.toLocaleString()}</span>
+                  <span>LKR {grandTotal.toLocaleString()}</span>
                 </div>
 
                 <button
