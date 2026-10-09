@@ -24,7 +24,7 @@ export const products: Product[] = [
   {
     id: '2',
     name: 'Adult Knee Hammer',
-    price: 1690,
+    price: 1840,
     originalPrice: undefined,
     description: 'Reflex percussion hammer used for neurological examination and assessment of deep tendon reflexes in adults.',
     longDescription: 'Reflex percussion hammer used for neurological examination and assessment of deep tendon reflexes in adults.',
