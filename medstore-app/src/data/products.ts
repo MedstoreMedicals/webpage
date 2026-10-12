@@ -89,7 +89,7 @@ export const products: Product[] = [
     description: 'Complete paediatric activity and examination support kit including colouring books, crayons, toys, wooden utensils, stationery items, and transparent carry bag for child-friendly clinical interactions.',
     longDescription: 'Complete paediatric activity and examination support kit including colouring books, crayons, toys, wooden utensils, stationery items, and transparent carry bag for child-friendly clinical interactions.',
     category: 'Paediatric Accessories',
-    images: ['/images/paediatric-kit.jpeg', '/images/paediatric-kit-2.jpeg'],
+    images: ['/images/paediatric-kit.jpeg', '/images/paediatric-kit-3.jpeg'],
     variants: [
       { type: 'Type', label: 'Customised Bag' },
     ],
